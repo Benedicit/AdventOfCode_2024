@@ -23,6 +23,6 @@ def part2(list1, list2):
     for x in list1:
         if x in counts:
             similarity_score += counts[x] * x
-    print("The similiarity score is", similarity_score)
+    print("The similarity score is", similarity_score)
 part1(list1, list2)
 part2(list1, list2)
