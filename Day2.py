@@ -44,38 +44,9 @@ def part2():
     safe_reports, unsafe_reports = part1()
     for report in unsafe_reports:
         for skip in range(0, len(report)):
-            prev = int(report[0])
-            ascending = 0
-            safe = True
-            for i in range(1, len(report)):
-                if i == skip:
-                    continue
-                elif (skip == 0 and i == 1) :
-                    prev = int(report[i])
-                    continue
-                x = int(report[i])
-                if x == prev:
-                    safe = False
-                    break
-                if x < prev:
-                    if ascending == 1:
-                        safe = False
-                        break
-                    elif ascending == 0:
-                        ascending = -1
-                    if x < prev - 3:
-                        safe = False
-                        break
-                elif x > prev:
-                    if ascending == -1:
-                        safe = False
-                        break
-                    elif ascending == 0:
-                        ascending = 1
-                    if x > prev + 3:
-                        safe = False
-                        break
-                prev = x
+            numbers = report.copy()
+            numbers.pop(skip)
+            safe = check_safe(numbers)
             if safe:
                 safe_reports += 1
                 break
