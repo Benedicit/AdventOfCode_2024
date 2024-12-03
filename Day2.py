@@ -37,18 +37,17 @@ def part1():
                 safe_reports += 1
             else:
                 unsafe_reports.append(numbers)
-        print(safe_reports)
+        print("Part 1:", safe_reports)
         return safe_reports, unsafe_reports
 
 def part2():
     safe_reports, unsafe_reports = part1()
     for report in unsafe_reports:
         for skip in range(0, len(report)):
-            numbers = report.copy()
-            numbers.pop(skip)
+            numbers = report[:skip] + report[skip+1:]
             safe = check_safe(numbers)
             if safe:
                 safe_reports += 1
                 break
-    print(safe_reports)
+    print("Part 2:", safe_reports)
 part2()
