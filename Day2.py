@@ -1,5 +1,11 @@
 def check_safe(numbers):
+    """
+    It can be way more compact in python, but this code is pretty self explaining. I used numbers for ascending to
+    have no problems with the first number
     prev = int(numbers[0])
+    :param numbers: parsed line
+    :return:
+    """
     ascending = 0
     safe = True
     for i in range(1, len(numbers)):
@@ -41,6 +47,9 @@ def part1():
         return safe_reports, unsafe_reports
 
 def part2():
+    """
+    Just use part1() to get all safe reports and then check which are safe if you skip one number
+    """
     safe_reports, unsafe_reports = part1()
     for report in unsafe_reports:
         for skip in range(0, len(report)):

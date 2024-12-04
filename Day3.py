@@ -9,14 +9,20 @@ def sum_mul(mul_list):
     return result
 mul_re = re.compile(r'mul\([1-9][0-9]*,[1-9][0-9]*\)', re.MULTILINE)
 def part1():
+    """
+    A simple regex does the trick
+    """
     with open("input/Day3.txt") as f:
         valid_mul = []
         valid_mul += re.findall(mul_re, f.read())
         result = sum_mul(valid_mul)
         print("Part 1:", result)
 
-# Here we look for everything which is between a do() and a don't()
 def part2():
+    """
+    Here we look for everything which is between a do() and a don't() and make our search in every substring
+    The .* needs the ?, as it otherwise won't stop after the first don't()
+    """
     with open("input/Day3.txt") as f:
         valid_mul = []
         line = "do()" + f.read().replace('\n', '') + "don't()"
@@ -27,8 +33,11 @@ def part2():
         result = sum_mul(valid_mul)
         print("Part 2:", result)
 
-# Here we remove everything between a don't() and a do()
-def part2_V2():
+def part2_v2():
+    """
+    Here we remove everything between a don't() and a do() and do our search
+    The .* needs the ?, as it otherwise won't stop after the first do()
+    """
     with open("input/Day3.txt") as f:
         valid_mul = []
         line = f.read().replace('\n', '')
@@ -41,4 +50,4 @@ def part2_V2():
 
 part1()
 part2()
-part2_V2()
+part2_v2()
