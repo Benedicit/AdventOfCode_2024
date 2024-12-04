@@ -1,9 +1,5 @@
 import re
-from itertools import chain
-
 import numpy as np
-
-
 
 def part1():
     """
@@ -22,8 +18,8 @@ def part1():
         diag = [np.diag(arr, k=i) for i in range(-width, width)] + \
                 [np.diag(arr_rot, k=i) for i in range(-width, width)]
         
-        whole_str = "#".join("".join(row) for row in arr) + "#" + \
-                    "#".join("".join(row) for row in arr.T) + "#" + \
+        whole_str = "#".join("".join(row) for row in arr) + \
+                    "#".join("".join(row) for row in arr.T) + \
                     "#".join("".join(d) for d in diag)
         
         count = len(re.findall(r'XMAS', whole_str)) + len(re.findall(r'SAMX', whole_str))
@@ -32,7 +28,7 @@ def part1():
 def part2():
     """
     This part was so much easier, as here it is always a 3x3 subgrid we have to look at and don't need to worry about
-    things. Going vertical, horizontal and diagonal. So a simple search through the grid works more than fine.
+    things going vertical, horizontal and diagonal. So a simple search through the grid works more than fine.
     """
     with open("input/Day4.txt") as f:
         grid = []
@@ -48,7 +44,6 @@ def part2():
                     if check_back == "MAS" or check_back == "SAM":
                         count += 1
         print(count)
-
 
 part1()
 part2()
