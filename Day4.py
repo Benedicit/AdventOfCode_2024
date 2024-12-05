@@ -16,10 +16,10 @@ def part1():
         arr = np.array(grid)
         arr_rot = np.rot90(arr)
         diag = [np.diag(arr, k=i) for i in range(-width, width)] + \
-                [np.diag(arr_rot, k=i) for i in range(-width, width)]
+               [np.diag(arr_rot, k=i) for i in range(-width, width)]
         
         whole_str = "#".join("".join(row) for row in arr) + \
-                    "#".join("".join(row) for row in arr.T) + \
+                    "#".join("".join(row) for row in arr_rot) + \
                     "#".join("".join(d) for d in diag)
         
         count = len(re.findall(r'XMAS', whole_str)) + len(re.findall(r'SAMX', whole_str))
