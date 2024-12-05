@@ -2,10 +2,17 @@ from itertools import permutations
 
 
 def part1():
+    """
+    My approach is start from the end of the sequence and check if there is a number before it, which violates a rule.
+    So a simple naive O(n^2) solution
+    """
+
+    # Parse the rules in a dictionary and the update sequences in a list
     with open("input/Day5.txt") as f:
         second_part = False
         rules = {}
         updates = []
+
         for line in f:
             if second_part:
                 line = line.strip()
@@ -19,6 +26,7 @@ def part1():
                     rules[rule[0]] = {rule[1]}
                 else:
                     rules[rule[0]].add(rule[1])
+
         correct_update = []
         incorrect_update = []
         for update in updates:
@@ -45,10 +53,13 @@ def part1():
         return rules, incorrect_update
 
 def part2():
+    """
+    Yes you can make you own comparison function, or you just bubble sort, as input size n is small.
+    """
     rules, incorrect_update = part1()
     for update in incorrect_update:
         len_update = len(update)
-        for _ in range(len_update):
+        for _ in range(len_update): # If doing it once is not enough, just do it n times :P
             for i in range(len_update):
                 current = update[len_update -1-i]
                 rule = rules.get(current)
