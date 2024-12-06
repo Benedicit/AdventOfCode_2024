@@ -39,10 +39,12 @@ def part1():
     start_x, start_y, grid = parse_grid()
     x_length = grid.shape[0]
     y_length = grid.shape[1]
+    path = set()
     while x_length > start_x >= 0 and y_length > start_y >= 0:
         if grid[start_y, start_x] == "#":
             start_x, start_y, direction = turn90(direction, start_x, start_y)
         grid[start_y, start_x] = "X"
+        path.add((start_y, start_x))
         match direction:
             case "UP":
                 start_y -= 1
@@ -56,6 +58,7 @@ def part1():
     counts = dict(zip(unique, count))
     result = counts["X"]
     print(result)
+    return path
 
 def check_loop(x_length, y_length, start_x, start_y, grid):
     loop = False
@@ -74,7 +77,7 @@ def check_loop(x_length, y_length, start_x, start_y, grid):
             case "RIGHT":
                 start_x += 1
         end = time.time()
-        # It's way simpler, way more sketchy to simply check execution time
+        # It's way simpler, way more sketchy, to simply check execution time
         if end - begin >= 0.01: # This magic number depends on the speed of your CPU and may need to be changed for your needs
             loop = True
             break
@@ -82,24 +85,26 @@ def check_loop(x_length, y_length, start_x, start_y, grid):
 
 def part2():
     """
-    A 130x130 is very easy to brute force and takes on a M1 Pro just a few seconds
+    A 130x130 is very easy to brute force and takes on a M1 Pro ~23,5 seconds
     """
+    path = part1()
+    start = time.time()
     start_x, start_y, grid = parse_grid()
     x_length = grid.shape[0]
     y_length = grid.shape[1]
     count_options = 0
-    for i in range(x_length):
-        for j in range(y_length):
-            grid_c = np.copy(grid)
-            x = start_x
-            y = start_y
-            grid_c[i, j] = "#"
-            loop = check_loop(x_length, y_length, x, y, grid_c)
-            if loop:
-                count_options += 1
+    for (i, j) in path:
+        grid_copy = np.copy(grid)
+        x = start_x
+        y = start_y
+        grid_copy[i, j] = "#"
+        loop = check_loop(x_length, y_length, x, y, grid_copy)
+        if loop:
+            count_options += 1
+    end = time.time()
+    print(end - start)
     print(count_options)
 
-part1()
 part2()
 
 
