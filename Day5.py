@@ -1,6 +1,3 @@
-from itertools import permutations
-
-
 def part1():
     """
     My approach is start from the end of the sequence and check if there is a number before it, which violates a rule.
@@ -12,7 +9,6 @@ def part1():
         second_part = False
         rules = {}
         updates = []
-
         for line in f:
             if second_part:
                 line = line.strip()

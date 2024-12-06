@@ -2,10 +2,9 @@ def check_safe(numbers):
     """
     It can be way more compact in python, but this code is pretty self explaining. I used numbers for ascending to
     have no problems with the first number
-    prev = int(numbers[0])
     :param numbers: parsed line
-    :return:
     """
+    prev = int(numbers[0])
     ascending = 0
     safe = True
     for i in range(1, len(numbers)):

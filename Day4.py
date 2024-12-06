@@ -4,7 +4,7 @@ import numpy as np
 def part1():
     """
     Instead going to the grid one by one, I utilize the np.diag() function to give me all diagonals.
-    After that I concat everything in one big string, where each column, diagonal etc. is seperated by a #. Otherwise there
+    After that I concat everything in one big string, where each column, diagonal etc. is seperated by a #. Otherwise, there
     could be an accidental XMAS or SAMX. In the end I just let the regex find all matches and count them
     """
     with (open("input/Day4.txt") as f):
