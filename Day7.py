@@ -41,7 +41,7 @@ def build_binary_tree(values):
         stack = next_stack
     return tree
 
-def build_binary_tree_with_calc(values):
+def build_binary_tree_with_calc(values, target):
     """
     This function is the same as before, but we directly accumulate the leafs in the stack and safe runtime and storage
     Here we directly accumulate the values while we "build" up the tree
@@ -57,6 +57,8 @@ def build_binary_tree_with_calc(values):
         is_leaf = counter == len(values) - 1
         while len(stack) > 0:
             curr = stack.pop()
+            if curr > target:
+                continue
             next_stack.append(v + curr) # Instead of the values you can also add a BST(v+curr), but as we don't need the tree
             next_stack.append(v * curr) # we can safe storage and just accumulate the values
             if is_leaf:
@@ -80,15 +82,15 @@ def parse_file():
 def part1():
     equations = parse_file()
     acc = 0
-    for eq in equations:
-        results = build_binary_tree_with_calc(equations[eq])
+    for target in equations:
+        results = build_binary_tree_with_calc(equations[target], target)
         #print(eq, results)
-        if eq in results:
-            acc += eq
+        if target in results:
+            acc += target
     print(acc)
 
 
-def build_ternary_tree_with_calc(values):
+def build_ternary_tree_with_calc(values, target):
     """
     Completely the same as part 1 except we have now a ternary tree with the | operator
     :param values: The values which get accumulated on every new level of the tree
@@ -103,6 +105,8 @@ def build_ternary_tree_with_calc(values):
         is_leaf = counter == len(values) - 1
         while len(stack) > 0:
             curr = stack.pop()
+            if curr > target:
+                continue
             next_stack.append(v + curr)
             next_stack.append(int(str(curr) + str(v)))
             next_stack.append(v * curr)
@@ -116,11 +120,11 @@ def build_ternary_tree_with_calc(values):
 def part2():
     equations = parse_file()
     acc = 0
-    for eq in equations:
-        results = build_ternary_tree_with_calc(equations[eq])
+    for target in equations:
+        results = build_ternary_tree_with_calc(equations[target], target)
         #print(eq, results)
-        if eq in results:
-            acc += eq
+        if target in results:
+            acc += target
     print(acc)
 
 
