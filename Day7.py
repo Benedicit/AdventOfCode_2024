@@ -21,10 +21,10 @@ class BST:
 
 def build_binary_tree(values):
     """
-    This function is kinda deprecated as you don't build up the tree, as you only need leafs
-    but still it is nice for the understanding of my solution:
-    We will traverse the tree and if you go to the left, you add the value to the parent one, if you go to the right you multiply it.
-    This works as in this problem operator precedence is ignored and it is only left to right.
+    This function is kinda deprecated as you don't store the whole tree, because you only need the leafs of it
+    but still it is nice for the understanding of my solution and the problem in general:
+    We will build up the tree and for the left child, you add the value to the parent one, for right one you multiply it.
+    This is only possible because this problem operator precedence is ignored, and it is only evaluated left to right.
     :param values: The values which get accumulated on every new level of the tree
     :return: The final binary tree
     """
@@ -34,14 +34,14 @@ def build_binary_tree(values):
         next_stack = []
         while len(stack) > 0:
             curr = stack.pop()
-            curr.left = BST(v)
-            curr.right = BST(v)
+            curr.left = BST(curr.val + v)
+            curr.right = BST(curr.val * v)
             next_stack.append(curr.left)
             next_stack.append(curr.right)
         stack = next_stack
     return tree
 
-def build_binary_tree_with_calc(values, target):
+def get_leafs_of_binary_tree(values, target):
     """
     This function is the same as before, but we directly accumulate the leafs in the stack and safe runtime and storage
     Here we directly accumulate the values while we "build" up the tree
@@ -57,7 +57,7 @@ def build_binary_tree_with_calc(values, target):
         is_leaf = counter == len(values) - 1
         while len(stack) > 0:
             curr = stack.pop()
-            if curr > target:
+            if curr >= target: # We don't need to go further if it is already impossible
                 continue
             next_stack.append(v + curr) # Instead of the values you can also add a BST(v+curr), but as we don't need the tree
             next_stack.append(v * curr) # we can safe storage and just accumulate the values
@@ -83,14 +83,14 @@ def part1():
     equations = parse_file()
     acc = 0
     for target in equations:
-        results = build_binary_tree_with_calc(equations[target], target)
+        results = get_leafs_of_binary_tree(equations[target], target)
         #print(eq, results)
         if target in results:
             acc += target
-    print(acc)
+    print("Part 1:", acc)
 
 
-def build_ternary_tree_with_calc(values, target):
+def get_leafs_of_the_ternary_tree(values, target):
     """
     Completely the same as part 1 except we have now a ternary tree with the | operator
     :param values: The values which get accumulated on every new level of the tree
@@ -105,7 +105,7 @@ def build_ternary_tree_with_calc(values, target):
         is_leaf = counter == len(values) - 1
         while len(stack) > 0:
             curr = stack.pop()
-            if curr > target:
+            if curr >= target: # We don't need to go further if it is already impossible
                 continue
             next_stack.append(v + curr)
             next_stack.append(int(str(curr) + str(v)))
@@ -121,11 +121,11 @@ def part2():
     equations = parse_file()
     acc = 0
     for target in equations:
-        results = build_ternary_tree_with_calc(equations[target], target)
+        results = get_leafs_of_the_ternary_tree(equations[target], target)
         #print(eq, results)
         if target in results:
             acc += target
-    print(acc)
+    print("Part 2:", acc)
 
 
 part1()
