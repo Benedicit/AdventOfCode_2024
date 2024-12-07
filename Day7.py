@@ -1,4 +1,7 @@
 class BST:
+    """
+    A simple binary tree
+    """
     def __init__(self, val):
         self.left = None
         self.right = None
@@ -17,6 +20,14 @@ class BST:
         self.val = val
 
 def build_binary_tree(values):
+    """
+    This function is kinda deprecated as you don't build up the tree, as you only need leafs
+    but still it is nice for the understanding of my solution:
+    We will traverse the tree and if you go to the left, you add the value to the parent one, if you go to the right you multiply it.
+    This works as in this problem operator precedence is ignored and it is only left to right.
+    :param values: The values which get accumulated on every new level of the tree
+    :return: The final binary tree
+    """
     tree = BST(values[0])
     stack = [tree]
     for v in values[1:]:
@@ -31,6 +42,12 @@ def build_binary_tree(values):
     return tree
 
 def build_binary_tree_with_calc(values):
+    """
+    This function is the same as before, but we directly accumulate the leafs in the stack and safe runtime and storage
+    Here we directly accumulate the values while we "build" up the tree
+    :param values: The values which get accumulated on every new level of the tree
+    :return: Leafs of the tree
+    """
     stack = [values[0]]
     results = []
     counter = 0
@@ -40,8 +57,8 @@ def build_binary_tree_with_calc(values):
         is_leaf = counter == len(values) - 1
         while len(stack) > 0:
             curr = stack.pop()
-            next_stack.append(v + curr)
-            next_stack.append(v * curr)
+            next_stack.append(v + curr) # Instead of the values you can also add a BST(v+curr), but as we don't need the tree
+            next_stack.append(v * curr) # we can safe storage and just accumulate the values
             if is_leaf:
                 results.append(v + curr)
                 results.append(v * curr)
@@ -49,12 +66,17 @@ def build_binary_tree_with_calc(values):
     return results
 
 def parse_file():
+    """
+    :return: Dictionary with the wanted result of the equation and the numbers need to use
+    """
     with open("input/Day7.txt") as f:
         equations = {}
         for line in f:
             wanted, eq = line.split(": ")
             equations[int(wanted)] = list(map(int, eq.split(" ")))
     return equations
+
+
 def part1():
     equations = parse_file()
     acc = 0
@@ -67,6 +89,11 @@ def part1():
 
 
 def build_ternary_tree_with_calc(values):
+    """
+    Completely the same as part 1 except we have now a ternary tree with the | operator
+    :param values: The values which get accumulated on every new level of the tree
+    :return: The leafs of the tree
+    """
     stack = [values[0]]
     results = []
     counter = 0
