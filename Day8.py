@@ -10,10 +10,10 @@ def parse():
             grid_length = len(chars)
             for x in range(grid_length):
                 if chars[x] != ".":
-                    if not antennas.get(chars[x]):
-                        antennas[chars[x]] = [(x, y)]
-                    else:
+                    if antennas.get(chars[x]):
                         antennas[chars[x]].append((x, y))
+                    else:
+                        antennas[chars[x]] = [(x, y)]
                     blocked.add((x,y))
             y += 1
     return antennas, grid_length, blocked
