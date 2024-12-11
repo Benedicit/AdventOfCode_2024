@@ -1,11 +1,10 @@
 import numpy as np
 def part_1_and_2():
     """
-    Today was a simple graph problem where BFS or DFS are doing nice. I chose BFS and part 1 and part 2 are exactly the same.
+    Today was a simple graph problem where BFS or DFS are great for the task. I chose BFS and part 1 and part 2 are exactly the same.
     The only difference is that for part 1 we count the distinct number of nines reachable, while part 2 we count all
     nines/paths to a nine.
     """
-
     # Parse the input
     with open("input/Day10.txt") as f:
         zeros = []
@@ -21,7 +20,7 @@ def part_1_and_2():
 
     grid = np.array(grid)
     grid_border = y-1
-    sum_nine = 0 # This is the accumulator for part 1
+    sum_nines = 0 # This is the accumulator for part 1
     sum_trails = 0 # This is the accumulator for part 2
     for zero in zeros:
         stack = [zero]
@@ -54,8 +53,8 @@ def part_1_and_2():
                 right = grid[y][x+1]
                 if right == current + 1:
                     stack.append((x+1,y))
-        sum_nine += len(nines)
-    print("Part 1:", sum_nine)
+        sum_nines += len(nines)
+    print("Part 1:", sum_nines)
     print("Part 2:", sum_trails)
 part_1_and_2()
 
