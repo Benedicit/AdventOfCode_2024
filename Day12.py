@@ -1,12 +1,17 @@
-import queue
-
 import numpy as np
 
-pots = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+pots = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" # The possible pots we can appear in the input
 
-def pick():
-    return 0
 def fill_subregion(y, x, border, grid):
+    """
+    A simple flood fill does the job. Just count on the way the number of tiles filled and
+     if you the neighbor belongs to your subregion or not
+    :param y: start y
+    :param x: start x
+    :param border: length grid
+    :param grid: input
+    :return: number of tiles filled, perimeter, filled grid
+    """
     area = 0
     perimeter = 0
     q = []
@@ -55,7 +60,15 @@ def part1():
     print(result)
 
 def get_sides(y,x,border, grid):
-
+    """
+        The beginning is the same, but we store the the coordinates of the outer boundary of our subregion.
+        After we filled the region, we only count lines (x or y increases by one) in the set.
+        :param y: start y
+        :param x: start x
+        :param border: length grid
+        :param grid: input
+        :return: number of tiles filled, number sides, filled grid
+    """
     area = 0
     sides = set()
     q = []
