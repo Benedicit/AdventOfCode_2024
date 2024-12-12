@@ -30,7 +30,7 @@ def part1():
 def part2():
     """
     Because each stone with the same number will behave the same and the position is actually meaningless, we count simply
-    always count all distinct numbers on stones and how often they appear.
+    always all distinct numbers on stones and how often they appear.
     """
     with open("input/Day11.txt") as f:
         stones = []
@@ -44,7 +44,7 @@ def part2():
         for s in counts:
             stone_str = str(s)
             if s == 0:
-
+                # It will be always one, so no need for a temporary variable here
                 if 1 not in temp:
                     temp[1] = counts[s]
                 else:
@@ -71,5 +71,5 @@ def part2():
     for s in counts:
         result += counts[s]
     print(result)
-part1()
+#part1()
 part2()
