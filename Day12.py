@@ -1,11 +1,13 @@
+import time
+
 import numpy as np
 
-pots = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" # The possible pots we can appear in the input
+pots = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" # The possible "pots" that can appear in the input
 
 def fill_subregion(y, x, border, grid):
     """
-    A simple flood fill does the job. Just count on the way the number of tiles filled and
-     if you the neighbor belongs to your subregion or not
+    A simple flood fill does the job. Just count during the fill the number of tiles and
+     check if the neighbor belongs to your subregion or not
     :param y: start y
     :param x: start x
     :param border: length grid
@@ -49,6 +51,7 @@ def part1():
     with open("input/Day12.txt") as f:
         for line in f:
             grid.append(list(line.strip()))
+    start = time.time()
     grid = np.array(grid)
     border = len(grid)
     for pot in pots:
@@ -57,7 +60,9 @@ def part1():
                 if grid[i][j] == pot:
                     area, perimeter, grid = fill_subregion(i, j, border, grid)
                     result += area * perimeter
-    print(result)
+    end = time.time()
+    print("Time Part 1:", end - start)
+    print("Part 1:", result)
 
 def get_sides(y,x,border, grid):
     """
@@ -99,7 +104,7 @@ def get_sides(y,x,border, grid):
             q.append((y, x + 1))
     number_sides = 0
     side_list = list(sides)
-    side_list.sort()
+    side_list.sort() # The sorting is needed so all coordinates only increase the higher to index is
     #print(side_list)
     for s in side_list:
         if s not in sides:
@@ -122,6 +127,7 @@ def part2():
     with open("input/Day12.txt") as f:
         for line in f:
             grid.append(list(line.strip()))
+    start = time.time()
     grid = np.array(grid)
     border = len(grid)
     for pot in pots:
@@ -131,6 +137,8 @@ def part2():
                     area, sides, grid = get_sides(i,j,border, grid)
                     #print(pot, area, sides)
                     result += area * sides
-    print(result)
+    end = time.time()
+    print("Time Part 2:", end - start)
+    print("Part 2:",result)
 part1()
 part2()
