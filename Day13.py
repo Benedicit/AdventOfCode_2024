@@ -57,57 +57,30 @@ def part1():
                 break
     print(result)
     print(reference)
-def part1_V2():
+def solution(part2=False):
     """
     Simple linear equations solving. Numpy can do that automatically :)
     But because numpy will always find a solution, but not all are natural numbers, so we need an equal check
     """
-    configs,_ = parse()
+    part1_config, part2_config = parse()
+    configs = part2_config if part2 else part1_config
     result = 0
     #solutions = []
     for c in configs:
         a = c["A"]
         b = c["B"]
         target = c["Target"]
-        temp = np.array([a, b]).T
-        x = np.linalg.solve(temp, target.T)
-        s_a = x[0].round(0)
-        s_b = x[1].round(0)
-        if 0 <=x[0] <= 100 and 0 <= x[1] <= 100:
-            check_r = s_a * a + s_b * b
-            if np.array_equal(check_r, target):
-                result = result + int(s_a) * 3 + int(s_b)
-                #solutions.append((s_a,s_b))
-    print(result)
-    #print(solutions)
-
-def part2():
-    """
-    Simple linear equations solving. Numpy can do that automatically :)
-    But because numpy will always find a solution, but not all are natural numbers, so we need an equal check
-    """
-    _,configs = parse()
-    result = 0
-    #solutions = []
-    for c in configs:
-        a = c["A"]
-        b = c["B"]
-        target = c["Target"]
-        temp = np.array([a, b]).T
-        x = np.linalg.solve(temp, target.T)
-        s_a = x[0].round()
-        s_b = x[1].round()
-        # Number button presses are >= 0
+        temp = np.array([a, b])
+        x = np.linalg.solve(temp.T, target.T).round()
         if 0 <=x[0] and 0 <= x[1]:
-            check_r = s_a * a + s_b * b
+            check_r = x[0] * a + x[1] * b
             if np.array_equal(check_r, target):
-                result = result + int(s_a) * 3 + int(s_b)
+                result = result + x[0] * 3 + x[1]
                 #solutions.append((s_a,s_b))
-    print(result)
+    print(int(result))
     #print(solutions)
-
 #part1()
-part1_V2()
-part2()
+solution()
+solution(part2=True)
 
 
