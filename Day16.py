@@ -7,8 +7,7 @@ def parse():
         for line in f:
             grid.append(list(line.strip()))
     grid = np.array(grid)
-    costs = np.full((grid.shape[0], grid.shape[1]), fill_value=10000000000)
-    return grid, costs
+    return grid
 
 directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]  # Down, Left, Up, Right
 
@@ -33,7 +32,7 @@ def part1():
     """
     Dijkstra does the job
     """
-    grid, costs = parse()
+    grid = parse()
     border = grid.shape[0]
     border_x = grid.shape[1]
     pq = []
@@ -42,9 +41,7 @@ def part1():
     d = (1, 0)
     nodes = {(x, y, d): []}
     heappush(pq, (0, (x, y, d)))
-    paths = []
     cost_nodes = {(x,y,d) : start_cost}
-    end_d = ()
     while len(pq) > 0:
         cost, (x, y, d) = heappop(pq)
         current = (x, y, d)
@@ -52,14 +49,15 @@ def part1():
             print(cost,d)
         for n in get_neighbors((x,y), d, grid):
             x_c, y_c, d, turned = n
+            neighbor = (x_c, y_c, d)
             new_score = cost + 1000 if turned else cost + 1
             if (x_c, y_c, d) not in cost_nodes:
-                cost_nodes[(x_c, y_c, d)] = start_cost
-            if new_score == cost_nodes[(x_c, y_c, d)]:
+                cost_nodes[neighbor] = start_cost
+            if new_score == cost_nodes[neighbor]:
                 nodes[(x_c, y_c, d)].add(current)
-            elif new_score < cost_nodes[(x_c, y_c, d)]:
+            elif new_score < cost_nodes[neighbor]:
                 nodes[(x_c, y_c, d)] = {current}
-                cost_nodes[(x_c,y_c,d)] = new_score
+                cost_nodes[neighbor] = new_score
                 heappush(pq, (new_score, (x_c, y_c, d)))
     tiles = set()
     stack = [(border_x-2,1,directions[0])]
@@ -75,7 +73,6 @@ def part1():
     check = np.where(np.array(grid) == "O")
     check = list(zip(check[0], check[1]))
     print(len(check))
-    print("Done")
 
 part1()
 
