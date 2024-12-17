@@ -42,11 +42,14 @@ def part1():
     nodes = {(x, y, d): []}
     heappush(pq, (0, (x, y, d)))
     cost_nodes = {(x,y,d) : start_cost}
+    printed = False
     while len(pq) > 0:
         cost, (x, y, d) = heappop(pq)
         current = (x, y, d)
         if grid[y][x] == goal:
-            print(cost,d)
+            if not printed:
+                print("Part 1",cost)
+                printed = True
         for n in get_neighbors((x,y), d, grid):
             x_c, y_c, d, turned = n
             neighbor = (x_c, y_c, d)
@@ -72,7 +75,7 @@ def part1():
         tiles.add((x,y,d))
     check = np.where(np.array(grid) == "O")
     check = list(zip(check[0], check[1]))
-    print(len(check))
+    print("Part 2:",len(check))
 
 part1()
 
