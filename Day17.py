@@ -89,9 +89,7 @@ def part2():
     # Program: 2,4,1,1,7,5,1,5,4,3,0,3,5,5,3,0
     # Program: 0,3,5,4,3,0
     start = 0o4532306073267275
-
     #print(start)
-    #end = 8 ** 17
     temp = format(start, "d")
     #print(temp)
     target = code.copy()
