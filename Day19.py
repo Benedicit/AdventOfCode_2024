@@ -1,7 +1,7 @@
 import functools
 import re
 
-patterns = []
+patterns = [] # It needs to be available in combs(), but not as an argument, otherwise automated caching doesn't work
 
 @functools.cache
 def combs(s):
@@ -22,7 +22,7 @@ with open("input/Day19.txt") as f:
     towels = ""
     targets = []
     skip = False
-    valid_t = []
+    valid_towels = []
     for line in f:
         line = line.strip()
         if skip:
@@ -38,15 +38,13 @@ with open("input/Day19.txt") as f:
         regex += f"({t})?"
     regex = f"^({regex})*$"
     sum_combs = 0
-    valid_towels = 0
     for t in targets:
         search = re.findall(regex, t)
         if search:
-            valid_t.append(t)
-            valid_towels += 1
-    print(f"Part 1: {valid_towels}")
+            valid_towels.append(t)
+    print(f"Part 1: {len(valid_towels)}")
     patterns = temp
-    for t in valid_t:
+    for t in valid_towels:
         sum_combs += combs(t)
     print(f"Part 2: {sum_combs}")
 
