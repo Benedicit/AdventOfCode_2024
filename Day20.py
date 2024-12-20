@@ -3,15 +3,7 @@ from itertools import combinations
 
 import numpy as np
 
-
 dirs = [(1,0),(-1,0),(0,1),(0,-1)]
-
-def cheat(grid, walls):
-    border = grid.shape[0]
-    for y,x in walls:
-        if y == border-1 or x == border-1:
-            continue
-        cord = y,x
 
 def build_path(nodes, goal,start):
     path = []
@@ -26,19 +18,11 @@ def build_path(nodes, goal,start):
     path.reverse()
     return path
 
-def pairs_p1(path, grid, border):
+def pairs(path, threshold, pos_on_path):
     for a,b in combinations(path,2):
         diff = abs(a[0]-b[0])+abs(a[1]-b[1])
-        if diff <= 2:
-            _,diff_path = dijkstra(border,grid,a,b)
-            if diff_path > diff and diff_path-diff >= 100:
-                yield diff_path-diff
-        continue
-def pairs_p2(path, grid, border):
-    for a,b in combinations(path,2):
-        diff = abs(a[0]-b[0])+abs(a[1]-b[1])
-        if 2 < diff <= 20:
-            _,diff_path = dijkstra(border,grid,a,b)
+        if diff <= threshold:
+            diff_path = abs(pos_on_path[a]-pos_on_path[b])
             if diff_path > diff and diff_path-diff >= 100:
                 yield diff_path-diff
         continue
@@ -46,7 +30,7 @@ def solution():
     """
     As there is only one path through the grid, a cheat is simply a pair of points in the grid. Only the ones where
     the Manhattan distance is less or equal than the max number of picoseconds are considered. Then it is checked, if we
-    can gain anything. It is still simply brute forcing, so part 2 takes >10 minutes, but it works.
+    can gain anything.
     """
     grid = []
     y = 0
@@ -65,15 +49,17 @@ def solution():
     border = grid.shape[0]
     nodes,_ = dijkstra(border, grid, start, goal)
     shortest_path = build_path(nodes, goal, start)
+    pos_on_path = {}
+    for i in range(len(shortest_path)):
+        pos_on_path[shortest_path[i]] = i
     num_cheats_p1 = 0
-    for _ in pairs_p1(shortest_path, grid, border):
+    for _ in pairs(shortest_path,2,pos_on_path):
         num_cheats_p1 += 1
     print("Part 1:", num_cheats_p1)
-
     num_cheats_p2 = 0
-    for _ in pairs_p2(shortest_path, grid, border):
+    for _ in pairs(shortest_path,20,pos_on_path):
         num_cheats_p2 += 1
-    print("Part 2:", num_cheats_p2+num_cheats_p1)
+    print("Part 2:", num_cheats_p2)
     """
     unique, count = np.unique(cheats, return_counts=True)
     counts = dict(zip(unique, count))
@@ -81,6 +67,7 @@ def solution():
     """
 
 
+# Dijkstra is actually overkill, as there is only one path, but I had this code lying around after day 18
 def get_neighbors(cord, visited, grid, border):
     neighbors = []
     for d in dirs:
@@ -100,7 +87,7 @@ def dijkstra(border, grid, start, goal):
     while len(pq) > 0:
         cost, (cords) = heappop(pq)
         if cords == goal:
-            #print(costs[goal])
+            print("Number of steps from start to goal:", costs[goal])
             break
         visited.add(cords)
         costs[cords] = cost
