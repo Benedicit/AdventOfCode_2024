@@ -20,12 +20,13 @@ def build_path(nodes, goal,start):
 
 def pairs(path, threshold, pos_on_path):
     for a,b in combinations(path,2):
-        diff = abs(a[0]-b[0])+abs(a[1]-b[1])
+        diff = abs(a[0]-b[0])+abs(a[1]-b[1]) # Manhattan distance
         if diff <= threshold:
-            diff_path = abs(pos_on_path[a]-pos_on_path[b])
+            diff_path = abs(pos_on_path[a]-pos_on_path[b]) # How many steps they are away
             if diff_path > diff and diff_path-diff >= 100:
                 yield diff_path-diff
         continue
+
 def solution():
     """
     As there is only one path through the grid, a cheat is simply a pair of points in the grid. Only the ones where
@@ -60,11 +61,6 @@ def solution():
     for _ in pairs(shortest_path,20,pos_on_path):
         num_cheats_p2 += 1
     print("Part 2:", num_cheats_p2)
-    """
-    unique, count = np.unique(cheats, return_counts=True)
-    counts = dict(zip(unique, count))
-    print(counts)
-    """
 
 
 # Dijkstra is actually overkill, as there is only one path, but I had this code lying around after day 18
