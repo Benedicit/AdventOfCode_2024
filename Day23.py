@@ -35,7 +35,8 @@ def part1():
     print("Part 1:", len(temp))
 def part2():
     """
-    For the biggest clique, for every node take the biggest subset of neighbors which are fully connected
+    For the biggest clique, for every node take the biggest subset of neighbors which are fully connected.
+    Brute force does the job in a few seconds
     """
     fully_connected = []
     for n in nodes:
@@ -50,7 +51,7 @@ def part2():
                 if p - nodes[z] != set():
                     every = False
                     break
-            if every and len(p)> len(subset):
+            if every and len(p) > len(subset):
                 subset = p
         current.add(c)
         if len(subset) > len(fully_connected):
