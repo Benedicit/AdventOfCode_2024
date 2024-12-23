@@ -51,5 +51,5 @@ def solution():
                     possible_score[seq] = num
                 else:
                     possible_score[seq] += num
-    print(max(possible_score.values()))
+    print(int(max(possible_score.values())))
 solution()
