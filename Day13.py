@@ -1,6 +1,7 @@
 import re
 
 import numpy as np
+
 offset = 10000000000000
 def parse():
     with open("input/Day13.txt") as f:
@@ -34,8 +35,8 @@ def parse():
 
 def part1():
     """
-    I knew Brute force will take too long for part 2, but I wanted to do it anyway. Yes this can be optimzed, but it is
-    not Brute force if it is not unoptimized :P.
+    I knew Brute force will take too long for part 2, but I wanted to do it anyway. Yes this can be optimized, but it is
+    not Brute force if it is not unoptimized :P
     """
     configs,_ = parse()
     result = 0

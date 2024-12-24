@@ -104,7 +104,7 @@ def get_sides(y,x,border, grid):
             q.append((y, x + 1))
     number_sides = 0
     side_list = list(sides)
-    side_list.sort() # The sorting is needed so all coordinates only increase the higher to index is
+    side_list.sort() # The sorting is needed so all coordinates only increase with higher indices
     #print(side_list)
     for s in side_list:
         if s not in sides:

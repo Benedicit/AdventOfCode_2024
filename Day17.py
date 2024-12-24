@@ -12,8 +12,7 @@ def get_op(x):
     elif x==6:
         return registers["C"]
     elif x==7:
-        print("That is illegal")
-        return 10000
+        raise Exception("That is illegal")
 
 def div_a(op):
     return registers["A"] // (2 ** op)
@@ -36,8 +35,6 @@ def part1(print_r):
     instructions = ""
     result = []
     while inst < end_prog:
-        # Program: 2,4,1,1,7,5,1,5,4,3,0,3,5,5,3,0
-        # First iterations: 2,1,7,1,4,0,out,jmp
         op = code[inst+1]
         instr = code[inst]
         match instr:
@@ -86,16 +83,12 @@ def part2():
     it again till it reaches again the responding number, if that is now impossible backtrack further.
     TODO: Convert this algorithm to code
     """
-    # Program: 2,4,1,1,7,5,1,5,4,3,0,3,5,5,3,0
     # Program: 0,3,5,4,3,0
     start = 0o4532306073267275
-    #print(start)
-    temp = format(start, "d")
-    #print(temp)
     target = code.copy()
     target = ",".join(list(map(str,target)))
     end = start +1
-    #start = 8 ** 15
+
     while start<end:
         registers["A"] = start
         registers["B"] = 0

@@ -30,14 +30,39 @@ def solution():
         print("Part 1:", result_p1)
         print("Part 2:", result_p2)
 
+@functools.cache
+def rec_seq(s, depth, max_depth):
+    """
+    For every character make a depth first approach where it generates the next sequence to an A. So the start point is
+    always the same.
+    Using memoization it takes milliseconds
+    :param s: current sequence
+    :param depth: current depth
+    :param max_depth: needed to switch grids
+    :return: length of the current sequence at a certain depth
+    """
+    grid = arrow_board
+    start = (0,2)
+    y,x = start
+    if depth == max_depth:
+        grid = num_pad
+        y,x = 3,2
+    if depth == 0:
+        return len(s)
+    length = 0
+    for c in s:
+        new_s, (y,x) = make_sequence(c,(y,x),grid)
+        length += rec_seq(new_s,depth-1,max_depth)
+    return length
+
 def make_sequence(c,start,grid):
     """
     Each grid has specific best sequences, if we need would go otherwise into the blocked space.
-    In general: If we go left, we prefer x movement. If we go right, prefer y movement.
+    In general: If we go left, we prefer x movement. If we go right, we prefer y movement.
     :param c: Character we want to press
     :param start: starting position
     :param grid: current grid
-    :return: new x,y and which sequence gets you to the button
+    :return: new x,y and the sequence which gets you to the button
     """
     y,x = start
     target_idx = np.where(grid == c)
@@ -75,30 +100,5 @@ def make_sequence(c,start,grid):
             s += dir_hor * diff_x
     s += "A"
     return s, (target_y,target_x)
-
-@functools.cache
-def rec_seq(s, depth, max_depth):
-    """
-    For every character make a depth first approach where there it generates the next sequence to an A.
-    Using memoization it takes milliseconds
-    :param s: current sequence
-    :param depth: current depth
-    :param max_depth: needed to switch grids
-    :return: length of the current sequence at a certain depth
-    """
-    grid = arrow_board
-    start = (0,2)
-    y,x = start
-    if depth == max_depth:
-        grid = num_pad
-        y,x = 3,2
-    if depth == 0:
-        return len(s)
-    length = 0
-    for c in s:
-        new_s, (y,x) = make_sequence(c,(y,x),grid)
-        length += rec_seq(new_s,depth-1,max_depth)
-    return length
-
 
 solution()
